@@ -1,0 +1,401 @@
+% Joel Cabrera
+% 1652
+% Section C2
+% Math 250 MATLAB Lab Assignment #2
+format compact
+rand('seed', 1652)
+% Question 1(a)
+A = rmat(3,5)
+A =
+     3     0     5     5     4
+     7     4     9     4     8
+     8     6     0     6     1
+rank(A(:,1:3))
+ans =
+     3
+b = rvect(3)
+b =
+     4
+     8
+     7
+R = rref([A b])
+R =
+    1.0000         0         0    2.4107   -0.0357    1.0357
+         0    1.0000         0   -2.2143    0.2143   -0.2143
+         0         0    1.0000   -0.4464    0.8214    0.1786
+S = R(:,1:5)
+S =
+    1.0000         0         0    2.4107   -0.0357
+         0    1.0000         0   -2.2143    0.2143
+         0         0    1.0000   -0.4464    0.8214
+S = rref(A)
+S =
+    1.0000         0         0    2.4107   -0.0357
+         0    1.0000         0   -2.2143    0.2143
+         0         0    1.0000   -0.4464    0.8214
+% Question 1(ai)
+% The first three columns of S are the pivot columns.
+% Question 1(aii)
+% The rank of R is 3 and the rank of A is also 3.
+% Question 1(aiii)
+% The nullity of A is 2, and the x4 and x5 are the free variables (the variables that correspond to the
+% 4th and 5th columns of S (the RREF of A), respectively).
+% Question 1(aiv)
+% Ax = b has a solution because x4 and x5 are free variables, meaning that they can be set to any numeric
+% value (e.g. x4 = 1, x5 = 0). Since x1, x2, and x3 are basic variables, where they are set equal to the coefficents
+% of x4 and x5 above, the values chosen for x4 and x5 will generate unique values of x1, x2, and x3, leading to a
+% general solution to A*x = b.
+% Question 1(b)
+c = R(:,6)
+c =
+    1.0357
+   -0.2143
+    0.1786
+x = [c; 0; 0]
+x =
+    1.0357
+   -0.2143
+    0.1786
+         0
+         0
+% Question 1(bi)
+A*x - b
+ans =
+   1.0e-14 *
+    0.0888
+    0.1776
+    0.0888
+S*x - c
+ans =
+     0
+     0
+     0
+% Question 1(bii)
+% The equations in Question 2(bi) are true because, by the properties of row reduction, for S: the leading entry in each column 
+% have all other entries equal to 0, and the leading entry of each non-zero row is 1. This allows S*x to equal c. Although this
+% is not true for A (since it is not in RREF), it is true that both A and S have the same m*n, allowing x to multiply into them
+% (x's number of rows = A's and S's number of columns). Furthemore, by Theorem 2.3 in page 127 of the textbook,
+% if matrix A has an RREF form, then there exists an invertible matrix P such that P*A = R. In this case, if A*x = b
+% and S*x = c, then there exists A*x - b = 0 and S*x - c = 0, respectively (where b and c are the inverses of A and S, also respectively).
+% Question 1(c)
+u = [-S(:,4); 1; 0]
+u =
+   -2.4107
+    2.2143
+    0.4464
+    1.0000
+         0
+v = [-S(:,5); 0; 1]
+v =
+    0.0357
+   -0.2143
+   -0.8214
+         0
+    1.0000
+% Question 1(ci)
+% The vectors u and v are the vectors that appear in vector form of the general solution to Ax = 0 because
+% these vectors are linearly independent - that is, they are the span of vectors that is generated from Ax = 0.
+% When A*x, the resultant values are 0, making it linearly independent. However, writing x in vector form generates
+% the s and v vectors shown above.
+S*u
+ans =
+     0
+     0
+     0
+A*u
+ans =
+   1.0e-14 *
+    0.0888
+    0.0888
+    0.1776
+S*v
+ans =
+     0
+     0
+     0
+A*v
+ans =
+     0
+     0
+     0
+s = rand(1)
+s =
+    0.4012
+t = rand(1)
+t =
+    0.3945
+y = s*u + t*v
+y =
+   -0.9530
+    0.8038
+   -0.1449
+    0.4012
+    0.3945
+% Question 1(cii)
+% The properties of matrix and vector algebra that ensure that A*y= 0 are properties (a) and (b) from
+% Theorem 1.3 from page 24 of the textbook. Property (a) states that: A*(u+v) = A*u +A*v (in this case,
+% A*y = A(s*u + t*v) = A*(s*u)+A*(t*v). Property (b) states that: A*(c*u) = c*(A*u) = (c*A)*u for every
+% scalar c (in this case, A*(s*u)+A*(t*v) = s*(A*u)+t*(A*v), almost like an extension of the previous property).
+A*y
+ans =
+   1.0e-15 *
+    0.2220
+    0.8882
+    0.3331
+% Question 1(d)
+z = x + y
+z =
+    0.0827
+    0.5895
+    0.0336
+    0.4012
+    0.3945
+% The properties of matrix and vector algebra that imply that A*z = b are properties (a) and (b) as in the
+% previous problem. A*z can be expanded into the follwing: A*z = A*(x + y) = A*(x + (s*u + t*v)) = A*x + A*(s*u + t*v)) = A*x + s*(A*u) + t*(A*v)
+A*x - b
+ans =
+   1.0e-14 *
+    0.0888
+    0.1776
+    0.0888
+% Question 2
+u1 = rvect(3)
+u1 =
+     0
+     8
+     2
+u2 = rvect(3)
+u2 =
+     2
+     7
+     8
+u3 = rvect(3)
+u3 =
+     3
+     1
+     7
+u4 = rvect(3)
+u4 =
+     6
+     3
+     5
+% Question 2(a)
+A = [u1 u2 u3]
+A =
+     0     2     3
+     8     7     1
+     2     8     7
+rref(A)
+ans =
+     1     0     0
+     0     1     0
+     0     0     1
+% Question 2(ai)
+A*x
+% The equation A*x = 0 has no free variables; only basic variables.
+% Question 2(aii)
+% The set S is linearly independent because the numbers in the pivot positions in each column of rref(A) would
+% all equal to 0, if the matrix were to be augmented. Because each number correponds to variables x1, x2, and x3
+% and that they all equal 0, that would mean only a 0 vector is the only solution, making S linearly independent.
+% Question 2(b)
+B = [u1 u2 u3 u4]
+B =
+     0     2     3     6
+     8     7     1     3
+     2     8     7     5
+rref(B)
+ans =
+    1.0000         0         0    4.3095
+         0    1.0000         0   -5.2857
+         0         0    1.0000    5.5238
+% Question 2(bi)
+% The equation B*x = 0 has only 1 free variable, which is x4.
+% Question 2(bii)
+% The set T is linearly dependent, since x4 can equal any number to make the above equation true. This means that
+% there exists at least 1 non-zero coefficient scalar to have B*x = 0.
+% Question 2(c)
+v = rand(1)*u1 + rand(1)*u2
+v =
+    1.9596
+    8.7536
+    8.3122
+% The set U is linearly dependent because U contains v, which is a linear combination of u1 and u2, which are
+% also in the same set that is U.
+U = [u1 u2 v]
+U =
+         0    2.0000    1.9596
+    8.0000    7.0000    8.7536
+    2.0000    8.0000    8.3122
+rref(U)
+ans =
+    1.0000         0    0.2369
+         0    1.0000    0.9798
+         0         0         0
+% Question 3
+A = rmat(2,3)
+A =
+     6     1     3
+     4     2     6
+B = rmat(3,4)
+B =
+     5     0     8     8
+     5     0     8     9
+     3     4     2     0
+C = rmat(4,3)
+C =
+     2     1     0
+     8     5     3
+     5     2     1
+     6     5     9
+v = rvect(4)
+v =
+     9
+     9
+     6
+     6
+% Question 3(a)
+u = B*v
+u =
+   141
+   147
+    75
+u = A*u
+u =
+        1218
+        1308
+D = A*B
+D =
+    44    12    62    57
+    48    24    60    50
+D*v
+ans =
+        1218
+        1308
+A*(B*C)
+ans =
+   836   513   611
+   888   538   582
+(A*B)*C
+ans =
+   836   513   611
+   888   538   582
+% Question 3(b)
+A = [0 1; 0 0]
+A =
+     0     1
+     0     0
+B = [0 0; 1 0]
+B =
+     0     0
+     1     0
+C = [0 1; 1 0]
+C =
+     0     1
+     1     0
+% Question 3(bi)
+A*B
+ans =
+     1     0
+     0     0
+B*A
+ans =
+     0     0
+     0     1
+% A*B does not equal B*A
+(A+B)^2
+ans =
+     1     0
+     0     1
+A^2 + 2*A*B + B^2
+ans =
+     2     0
+     0     0
+% (A+B)^2 does not equal A^2 + 2*A*B + B^2
+% Question 3(bii)
+A^2
+ans =
+     0     0
+     0     0
+% If A were a number instead of a matrix, the value of A^2 would tell me that the number was squared (e.g. 2^2 = 4)
+% However, this conclusion is not valid for matrices, as A^2 implies A*A, which, as shown above, gives a different
+% output then the value of matrix A itself.
+% Question 3 (biii)
+A*C
+ans =
+     1     0
+     0     0
+A*B
+ans =
+     1     0
+     0     0
+% If A,B,C were numbers, and A does not contain values of 0, then it would be concluded that B and C
+% are equal to each other (e.g. If A = 1, then A*C = A*B). However, this conclusion is not valid for
+% matrices, as the m*n of matrix A can make A*C and A*B different from each other, or even not computable at all.
+% (e.g. if matrix A is a 4x4, then it is impossible to do A*C or A*B since matrices B and C are 2x2).
+B*C
+ans =
+     0     0
+     0     1
+% Question 4
+A = [0 0 0 1 0 1; 1 0 1 1 0 0; 0 1 0 1 0 0; 1 0 1 0 0 0; 1 1 1 0 0 1; 0 0 1 1 0 0]
+A =
+     0     0     0     1     0     1
+     1     0     1     1     0     0
+     0     1     0     1     0     0
+     1     0     1     0     0     0
+     1     1     1     0     0     1
+     0     0     1     1     0     0
+% Question 4(i)
+% (see attached jpeg/pdf file for answer)
+% Question 4(ii)
+% As shown in matrix A above, only column 5 has zeros, indicating that person 5 does not receive any messages from
+% any other person. As shown in the attached handwritten graph for part 4i, there are no directed arrows, from anyone, 
+% pointing towards 5, person 5, which indicates that person 5 does not receive any messages from 1-4, persons 1 to 4.
+% Question 4(iii)
+A
+A =
+     0     0     0     1     0     1
+     1     0     1     1     0     0
+     0     1     0     1     0     0
+     1     0     1     0     0     0
+     1     1     1     0     0     1
+     0     0     1     1     0     0
+A^2
+ans =
+     1     0     2     1     0     0
+     1     1     1     2     0     1
+     2     0     2     1     0     0
+     0     1     0     2     0     1
+     1     1     2     4     0     1
+     1     1     1     1     0     0
+A^3
+ans =
+     1     2     1     3     0     1
+     3     1     4     4     0     1
+     1     2     1     4     0     2
+     3     0     4     2     0     0
+     5     2     6     5     0     1
+     2     1     2     3     0     1
+A^4
+ans =
+     5     1     6     5     0     1
+     5     4     6     9     0     3
+     6     1     8     6     0     1
+     2     4     2     7     0     3
+     7     6     8    14     0     5
+     4     2     5     6     0     2
+% In 1 stage (A), person 1 can send a message to person 4 in only 1 way, as the (1,4)-entry in A shows. In 2 stages
+% (A^2), person 1 can send a message to person 4 in 1 way stil, as the (1,4)-entry in A^2 shows. In 3 stages (A^3),
+% person 1 can send a message to person 4 in 3 ways, as the (1,4)-entry in A^3 shows. In 4 stages (A^4), person
+% 1 can send a message to person 4 in 5 ways, as the (1,4)-entry in A^4 shows.
+% Question 4(iv)
+B = A + A^2 + A^3 + A^4
+B =
+     7     3     9    10     0     3
+    10     6    12    16     0     5
+     9     4    11    12     0     3
+     6     5     7    11     0     4
+    14    10    17    23     0     8
+     7     4     9    11     0     3
+% In at most 4 stages, person 3 can send a message to person 4 in 12 ways, as the (3,4)-entry in B, the sum of matrix
+% A to matrix A^4, indicates.
